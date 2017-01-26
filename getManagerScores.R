@@ -5,7 +5,7 @@ require(magrittr)
 
 #-----------------------------------------
 
-#set manager IDs and gameweek range
+#set manager IDs and gameweek range, for example:
 manager_IDs <- c(2022839, 1)
 GWs <- 1:2
 
@@ -30,7 +30,7 @@ player_idx <- fromJSON("https://fantasy.premierleague.com/drf/bootstrap-static")
 #get FPL scores for all players in all gameweeks for (players featured by managers only to save scraping >600 player APIs)
 players <- unique(manager_scores$element)
 player_scores <- lapply(players, function(x) {
-	Sys.sleep(sample(seq(1, 2, by=0.001), 1)) #scrape responsibly!
+	Sys.sleep(sample(seq(1, 2, by=0.001), 1))
 	url <- paste0("https://fantasy.premierleague.com/drf/element-summary/", x)
 	df <- fromJSON(url)$history
 	data.frame(player_id = x, df[,c(gameweek = "round", pts = "total_points")])
