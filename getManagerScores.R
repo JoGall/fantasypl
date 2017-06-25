@@ -1,48 +1,44 @@
 require(jsonlite)
-require(ddply)
+require(dplyr)
 require(plyr)
-require(magrittr)
 
 #-----------------------------------------
 
-#set manager IDs and gameweek range, for example:
+#function to get manager scores for desired gameweeks
+getManagerScores <- function(IDs, gameweeks = c(1:38)) {
+  lapply(IDs, function(x) {
+    print(paste0("ID: ", x))
+    lapply(gameweeks, function(y) {
+      print(paste0("Gameweek ", y, " out of ", length(gameweeks)))
+      Sys.sleep(sample(seq(0.8, 1.5, by=0.001), 1)) #scrape responsibly!	
+      url <- paste0("https://fantasy.premierleague.com/drf/entry/", x, "/event/", y, "/picks")
+      df <- fromJSON(url)$picks
+      data.frame(manager = x, gameweek = y, df)
+    } ) %>%
+      plyr::rbind.fill() #flatten list to df
+  } ) %>%
+    plyr::rbind.fill() #flatten list to df
+}
+
+#---------------------------------------------------
+
+#for example:
 manager_IDs <- c(2022839, 1)
-GWs <- 1:2
 
-#-----------------------------------------
-
-#get all manager scores for desired gameweeks
-manager_scores <- 
-	lapply(manager_IDs, function(x) {
-		lapply(GWs, function(y) {
-			Sys.sleep(sample(seq(1, 2, by=0.001), 1)) #scrape responsibly!	
-			url <- paste0("https://fantasy.premierleague.com/drf/entry/", x, "/event/", y, "/picks")
-			df <- fromJSON(url)$picks
-			data.frame(manager = x, gameweek = y, df)
-		} ) %>%
-		plyr::rbind.fill()
-	} ) %>%
-	plyr::rbind.fill()
+manager_scores <- getManagerScores(2022839)
 
 #create a dataframe of player names and IDs
 player_idx <- fromJSON("https://fantasy.premierleague.com/drf/bootstrap-static")$elements[c("id", "web_name")]
 
-#get FPL scores for all players in all gameweeks for (players featured by managers only to save scraping >600 player APIs)
-players <- unique(manager_scores$element)
-player_scores <- lapply(players, function(x) {
-	Sys.sleep(sample(seq(1, 2, by=0.001), 1))
-	url <- paste0("https://fantasy.premierleague.com/drf/element-summary/", x)
-	df <- fromJSON(url)$history
-	data.frame(player_id = x, df[,c(gameweek = "round", pts = "total_points")])
-} ) %>%
-plyr::rbind.fill()
-
+#get player scores for each gameweek, e.g.:
+player_scores <- read.csv('https://github.com/JoGall/FantasyPL/16-17-formatted.csv')
+#or scrape yourself using getPlayerScores.R script
 
 #get points for all managers
 manager_scores %>%
-merge(., player_idx, by.x = c("element"), by.y = c("id")) %>%
-#add player scores
-merge(player_scores, by.x = c("element", "gameweek"), by.y = c("player_id", "gameweek")) %>%
-mutate(player = web_name) %>%
-dplyr::select(manager, gameweek, position, player, pts) %>%
-arrange(manager, gameweek, position)
+  merge(., player_idx, by.x = c("element"), by.y = c("id")) %>%
+  #add player scores
+  merge(player_scores, by.x = c("element", "gameweek"), by.y = c("player_id", "round")) %>%
+  mutate(player = web_name) %>%
+  dplyr::select(manager, gameweek, position, player, total_points) %>%
+  arrange(manager, gameweek, position)
