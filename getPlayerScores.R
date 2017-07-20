@@ -37,3 +37,9 @@ player_bygw$value <- player_bygw$value / 10
 player_bygw <- player_bygw[,c(1, 50:52, 2, 53:54, 3, 55:56, 13:49, 8:12)]
 
 rownames(player_bygw) <- NULL
+
+#add variable for fixture number
+player_bygw <- player_bygw %>%
+  arrange(player_id, kickoff_time) %>%
+  group_by(player_id) %>%
+  mutate(game_id = seq_len(n()))
