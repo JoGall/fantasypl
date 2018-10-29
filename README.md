@@ -1,2 +1,2 @@
 # FantasyPL
-Scrape player data from the Fantasy Premier League API for use in predictions
+Scrape player and manager scores from the Fantasy Premier League API for the current season

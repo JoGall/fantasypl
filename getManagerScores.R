@@ -2,27 +2,6 @@ require(jsonlite)
 require(dplyr)
 require(plyr)
 
-#-----------------------------------------
-
-#function to get manager scores for desired gameweeks
-getManagerScores <- function(IDs, gameweeks = c(1:38)) {
-  lapply(IDs, function(x) {
-    print(paste0("ID: ", x))
-    lapply(gameweeks, function(y) {
-      print(paste0("Gameweek ", y, " out of ", length(gameweeks)))
-      Sys.sleep(sample(seq(0.8, 1.5, by=0.001), 1)) #scrape responsibly!	
-      url <- paste0("https://fantasy.premierleague.com/drf/entry/", x, "/event/", y, "/picks")
-      df <- fromJSON(url)$picks
-      data.frame(manager = x, gameweek = y, df)
-    } ) %>%
-      plyr::rbind.fill() #flatten list to df
-  } ) %>%
-    plyr::rbind.fill() #flatten list to df
-}
-
-#---------------------------------------------------
-
-#for example:
 manager_IDs <- c(2022839, 1)
 
 manager_scores <- getManagerScores(2022839)
