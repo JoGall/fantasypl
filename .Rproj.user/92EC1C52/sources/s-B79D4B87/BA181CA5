@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1573385739386.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "BA181CA5",
+    "lastKnownWriteTime" : 1573384610,
+    "last_content_update" : 1573384610,
+    "path" : "~/Dropbox/fantasypl/scrapeFuns.R",
+    "project_path" : "scrapeFuns.R",
+    "properties" : {
+        "cursorPosition" : "236,25",
+        "scrollLine" : "228"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

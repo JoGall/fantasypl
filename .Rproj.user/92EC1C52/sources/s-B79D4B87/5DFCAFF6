@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1573386010978.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "5DFCAFF6",
+    "lastKnownWriteTime" : 1573386823,
+    "last_content_update" : 1573386823269,
+    "path" : "~/Dropbox/fantasypl/R/player_summary.R",
+    "project_path" : "R/player_summary.R",
+    "properties" : {
+        "cursorPosition" : "3,33",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
