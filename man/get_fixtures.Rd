@@ -22,7 +22,7 @@ Team ID can be found when examining points on the official FPL site, appearing a
 }
 \examples{
 # get completed fixtures
-get_fixtures() \%>\% 
-  filter(finished = TRUE)
+get_fixtures() \%>\%
+  filter(finished == TRUE)
 
 }

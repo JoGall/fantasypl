@@ -2,9 +2,9 @@
 
 export(get_fixtures)
 export(manager_picks)
-export(manager_scores)
-export(player_by_gw)
-export(player_summary)
+export(manager_points)
+export(player_points)
+export(player_points_by_gw)
 export(xpts_h2h)
 import(dplyr)
 import(fplscrapR)
